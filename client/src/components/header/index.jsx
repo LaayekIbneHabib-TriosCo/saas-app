@@ -2,41 +2,49 @@
 import { withRequiredAuthInfo, useRedirectFunctions, useLogoutFunction } from "@propelauth/react";
 
 import {
-  Card,
-  CardBody,
-  Wrap,
-  WrapItem,
-  Avatar,
-  AvatarBadge,
   Menu,
-  MenuButton,
+  Text,
+  Card,
+  Wrap,
+  Input,
+  Stack,
+  Avatar,
+  CardBody,
+  WrapItem,
   MenuList,
   MenuItem,
-  MenuDivider,
+  MenuGroup,
+  MenuButton,
   InputGroup,
-  Stack,
+  MenuDivider,
+  AvatarBadge,
   InputLeftElement,
-  Input,
 } from "@chakra-ui/react";
 
+import { FaUser } from "react-icons/fa";
 import { Search2Icon } from "@chakra-ui/icons";
 import { RiLogoutBoxLine } from "react-icons/ri";
-import { GoOrganization } from "react-icons/go";
-import { FaUser } from "react-icons/fa";
+
+// components
+import { Theme as theme } from "../../theme";
 
 const Header = withRequiredAuthInfo((props) => {
-  const { redirectToAccountPage, redirectToOrgPage } = useRedirectFunctions();
   const logoutFunction = useLogoutFunction();
+  const { redirectToAccountPage } = useRedirectFunctions();
+
+  const email = props.user.email;
+  const name = props.user.firstName + " " + props.user.lastName;
+  const noname = typeof props.user.firstName && props.user.lastName === undefined;
 
   if (props.isLoggedIn) {
     return (
       <>
         <Card>
-          <CardBody display="flex" justifyContent="space-between" alignItems="center">
+          <CardBody display="flex" justifyContent="space-between" alignItems="center" gap="1rem">
             <Stack spacing={4}>
               <InputGroup>
                 <InputLeftElement pointerEvents="none">
-                  <Search2Icon color="gray.300" />
+                  <Search2Icon color={theme.color.secondary} />
                 </InputLeftElement>
                 <Input type="text" />
               </InputGroup>
@@ -47,26 +55,48 @@ const Header = withRequiredAuthInfo((props) => {
                   <MenuButton>
                     <Avatar
                       cursor="pointer"
-                      name={props.user.firstName + " " + props.user.lastName}
+                      name={noname ? email : name}
                       src={props.user.pictureUrl}
                     >
-                      <AvatarBadge boxSize="1rem" bg="green.500" />
+                      <AvatarBadge boxSize="1rem" bg={theme.color.hero} />
                     </Avatar>
                   </MenuButton>
                   <MenuList>
-                    <MenuItem>{props.user.firstName + " " + props.user.lastName}</MenuItem>
-                    <MenuItem>Owner</MenuItem>
+                    <MenuGroup title="Profile">
+                      <MenuItem
+                        display="flex"
+                        gap=".65rem"
+                        _hover={{ background: "none" }}
+                        _focus={{ background: "none" }}
+                      >
+                        <Avatar
+                          size="2xs"
+                          name={noname ? email : name}
+                          src={props.user.pictureUrl}
+                        />
+                        <Text
+                          fontSize="md"
+                          background="gray.100"
+                          borderRadius=".5rem"
+                          padding="0 .25rem 0 .25rem"
+                          maxWidth="10rem"
+                          overflowX="scroll"
+                          display="flex"
+                        >
+                          <span>{noname ? email : name}</span>
+                        </Text>
+                      </MenuItem>
+                    </MenuGroup>
                     <MenuDivider />
-                    <MenuItem icon={<FaUser />} onClick={redirectToAccountPage}>
-                      Account
-                    </MenuItem>
-                    <MenuItem icon={<GoOrganization />} onClick={redirectToOrgPage}>
-                      Organization
-                    </MenuItem>
-                    <MenuDivider />
-                    <MenuItem icon={<RiLogoutBoxLine />} onClick={logoutFunction}>
-                      Logout
-                    </MenuItem>
+                    <MenuGroup title="Settings">
+                      <MenuItem icon={<FaUser />} onClick={redirectToAccountPage}>
+                        Account
+                      </MenuItem>
+                      <MenuDivider />
+                      <MenuItem icon={<RiLogoutBoxLine />} onClick={logoutFunction}>
+                        Logout
+                      </MenuItem>
+                    </MenuGroup>
                   </MenuList>
                 </Menu>
               </WrapItem>

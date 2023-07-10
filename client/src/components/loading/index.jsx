@@ -1,4 +1,5 @@
-import src from "../../assets/loading.gif";
+// root
+import { Text } from "@chakra-ui/react";
 
 export default function Loading() {
   const style = {
@@ -9,7 +10,9 @@ export default function Loading() {
   };
   return (
     <>
-      <img src={src} style={style} alt="Loading" />
+      <Text fontSize="lg" style={style}>
+        Loading...
+      </Text>
     </>
   );
 }
