@@ -1,3 +1,7 @@
 export default function AddProjects() {
-  return <div>AddProjects</div>;
+  return (
+    <>
+      <h1>Add projects</h1>
+    </>
+  );
 }

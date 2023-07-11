@@ -4,10 +4,6 @@
   font-family: "Poppins", sans-serif !important;
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
 body {
   background-color: #f5f6f6 !important;
 }

@@ -16,8 +16,8 @@ export default function App() {
   return (
     <Routes>
       {getRoutes(routes)}
-      <Route path="*" element={<Navigate to="/admin/add-clients" />} />
-      <Route path="*" element={<Navigate to="/admin/add-projects" />} />
+      <Route path="*" element={<Navigate to="/add-clients" />} />
+      <Route path="*" element={<Navigate to="/add-projects" />} />
     </Routes>
   );
 }

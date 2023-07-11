@@ -5,13 +5,13 @@ const routes = [
   {
     name: "Add Clients",
     key: "add-clients",
-    route: "/admin/add-clients",
+    route: "/add-clients",
     component: <AddClients />,
   },
   {
     name: "Add Projects",
     key: "add-projects",
-    route: "/admin/add-projects",
+    route: "/add-projects",
     component: <AddProjects />,
   },
 ];

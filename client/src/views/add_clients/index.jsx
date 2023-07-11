@@ -4,7 +4,7 @@ import { useState, useReducer, useRef, useEffect } from "react";
 import { Box, useDisclosure, useToast } from "@chakra-ui/react";
 
 // components
-import Header from "../../components/header";
+import Header from "../../layouts/_header";
 import CustomTable from "../../components/table";
 import CustomModal from "../../components/modal";
 
@@ -47,6 +47,7 @@ const reducer = (state, action) => {
 
 export default function AddClients() {
   const [clients, setClients] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -91,16 +92,18 @@ export default function AddClients() {
   // get clients
   async function fetchData() {
     try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       const res = await fetch("http://localhost:8000/api/data");
       if (!res.ok) {
         throw new Error(res.status);
       } else {
         const data = await res.json();
         setClients(data);
-        console.log(data);
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -124,7 +127,7 @@ export default function AddClients() {
             dispatch={dispatch}
             onClose={onClose}
           />
-          <CustomTable onOpen={onOpen} clients={clients} />
+          <CustomTable onOpen={onOpen} clients={clients} isLoading={isLoading} />
         </Box>
       </Box>
     </>
